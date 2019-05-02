@@ -6,6 +6,4 @@ Partie Back |
 Spring Boot | 
 Spring Data | 
 Spring MVC | 
-Postgresql | 
-Flyway | 
-Docker | 
+H2 | 
