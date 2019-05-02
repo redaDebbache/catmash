@@ -1,9 +1,19 @@
 package com.debbache.catmash.model;
 
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+import org.springframework.data.annotation.CreatedDate;
+
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "VOTE")
+@Getter
+@Setter
+@EqualsAndHashCode
 public class Vote {
 
     @Id
@@ -11,43 +21,21 @@ public class Vote {
     private Long id;
 
     @ManyToOne
-    private User user;
+    @NotNull
+    private User owner;
 
     @ManyToOne
+    @NotNull
     private Battle battle;
 
     @ManyToOne
+    @NotNull
     private Cat winner;
 
-    public Long getId() {
-        return id;
-    }
+    @CreatedDate
+    private LocalDateTime creationDateTime;
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    public Battle getBattle() {
-        return battle;
-    }
-
-    public void setBattle(Battle battle) {
-        this.battle = battle;
-    }
-
-    public Cat getWinner() {
-        return winner;
-    }
-
-    public void setWinner(Cat winner) {
-        this.winner = winner;
+    public Vote() {
+        this.creationDateTime = LocalDateTime.now();
     }
 }
