@@ -1,12 +1,11 @@
 package com.debbache.catmash.model;
 
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
+import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "CAT_USER")
@@ -16,15 +15,12 @@ import javax.validation.constraints.NotBlank;
 @EqualsAndHashCode
 public class User {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private String id;
 
-    @NotBlank
     private String name;
 
-    public User(String name) {
-        this.name = name;
+    public User(String id) {
+        this.id = id;
     }
-
 
 }

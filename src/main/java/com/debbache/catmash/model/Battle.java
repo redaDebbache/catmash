@@ -9,6 +9,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
+import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -22,6 +23,8 @@ public class Battle {
     @Id
     private String id;
 
+    private String functionalId;
+
     @ManyToOne
     @NotNull
     private Cat first;
@@ -34,32 +37,12 @@ public class Battle {
         this.first = first;
         this.second = second;
         this.id = Stream.of(first.getId(), second.getId()).sorted().collect(Collectors.joining("_"));
+        this.functionalId = UUID.randomUUID().toString();
     }
 
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
+    public Battle(String id) {
         this.id = id;
     }
-
-    public Cat getFirst() {
-        return first;
-    }
-
-    public void setFirst(Cat first) {
-        this.first = first;
-    }
-
-    public Cat getSecond() {
-        return second;
-    }
-
-    public void setSecond(Cat second) {
-        this.second = second;
-    }
-
 
     @Override
     public boolean equals(Object o) {
@@ -68,11 +51,12 @@ public class Battle {
 
         Battle battle = (Battle) o;
 
-        return (first.equals(battle.first) || first.equals(battle.second)) && (second.equals(battle.first) ||second.equals(battle.second));
+        return this.id.equals(battle.getId()) || (first.equals(battle.first) || first.equals(battle.second)) && (second.equals(battle.first) || second.equals(battle.second));
     }
 
     @Override
     public int hashCode() {
-       return first.hashCode() + second.hashCode();
+        return first.hashCode() + second.hashCode();
     }
+
 }

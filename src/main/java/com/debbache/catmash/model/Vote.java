@@ -3,6 +3,7 @@ package com.debbache.catmash.model;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.GenericGenerator;
 import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
@@ -17,10 +18,12 @@ import java.time.LocalDateTime;
 public class Vote {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @GeneratedValue(generator = "system-uuid")
+    @GenericGenerator(name = "system-uuid",
+            strategy = "uuid")
+    private String id;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @NotNull
     private User owner;
 
@@ -37,5 +40,20 @@ public class Vote {
 
     public Vote() {
         this.creationDateTime = LocalDateTime.now();
+    }
+
+    public Vote owner(User owner){
+        this.owner = owner;
+        return this;
+    }
+
+   public Vote battle(Battle battle){
+        this.battle = battle;
+        return this;
+    }
+
+   public Vote winner(Cat winner){
+        this.winner = winner;
+        return this;
     }
 }

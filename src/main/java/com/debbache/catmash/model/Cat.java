@@ -17,15 +17,15 @@ public class Cat {
     private String id;
 
     @NotBlank
-    private String imageLocalisation;
+    private String imageUrl;
 
     public Cat(String id) {
         this.id = id;
     }
 
-    public Cat(String id, @NotBlank String imageLocalisation) {
+    public Cat(String id, @NotBlank String imageUrl) {
         this.id = id;
-        this.imageLocalisation = imageLocalisation;
+        this.imageUrl = imageUrl;
     }
 
     @Override
@@ -42,4 +42,5 @@ public class Cat {
     public int hashCode() {
         return id.hashCode();
     }
+
 }

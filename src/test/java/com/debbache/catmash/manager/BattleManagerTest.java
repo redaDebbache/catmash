@@ -11,6 +11,7 @@ import org.mockito.junit.MockitoJUnitRunner;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -38,7 +39,7 @@ public class BattleManagerTest {
     public void should_create_battles_with_new_cats_and_old_cats_battles() {
         List<Cat> cats = buildCatList(3);
         List<String> alreadyStoredIds = Arrays.asList(generateRandomID(), generateRandomID(), generateRandomID());
-        List<Battle> battles = battleManager.createBattlesWith(cats, alreadyStoredIds);
+        Set<Battle> battles = battleManager.createBattlesWith(cats, alreadyStoredIds);
         assertThat(battles.size()).isEqualTo(15);
     }
 
@@ -50,7 +51,7 @@ public class BattleManagerTest {
         //Given
         List<Cat> cats = buildCatList(n);
         //When
-        List<Battle> battles = battleManager.generateNewCatBattles(cats);
+        Set<Battle> battles = battleManager.generateNewCatBattles(cats);
         //Then
         assertThat(battles.size()).isEqualTo(combination);
     }

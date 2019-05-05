@@ -15,4 +15,4 @@ import java.lang.annotation.Target;
 @SpringBootTest(classes = CatMashTestApplication.class)
 @Sql(scripts = "classpath:clear_all_tables.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
 @ActiveProfiles("test")
-public @interface CatMAshTest {}
+public @interface CatMashTest {}

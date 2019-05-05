@@ -4,11 +4,12 @@ import com.debbache.catmash.model.Battle;
 import com.debbache.catmash.model.Cat;
 import com.debbache.catmash.repository.BattleRepository;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -22,21 +23,21 @@ public class BattleManager {
 
     @Transactional
     public void createAndStoreBattles(List<Cat> newCats, List<String> alreadyStoredcatIds) {
-        List<Battle> battles = createBattlesWith(newCats, alreadyStoredcatIds);
+        Set<Battle> battles = createBattlesWith(newCats, alreadyStoredcatIds);
         this.battleRepository.saveAll(battles);
     }
 
-     List<Battle> createBattlesWith(List<Cat> newCats, List<String> alreadyStoredcatIds) {
+     Set<Battle> createBattlesWith(List<Cat> newCats, List<String> alreadyStoredcatIds) {
         List<Cat> cats = alreadyStoredcatIds.stream().map(Cat::new).collect(Collectors.toList());
         cats.addAll(newCats);
-        return generateBattlesFrom(cats);
+        return generateBattlesFrom(new HashSet<>(cats));
     }
 
-    List<Battle> generateNewCatBattles(List<Cat> newCats) {
-        return generateBattlesFrom(newCats);
+    Set<Battle> generateNewCatBattles(List<Cat> newCats) {
+        return generateBattlesFrom(new HashSet<>(newCats));
     }
 
-    private List<Battle> generateBattlesFrom(List<Cat> cats) {
+    private Set<Battle> generateBattlesFrom(Set<Cat> cats) {
         return cats
                 .stream()
                 .map(cat -> cats.stream()
@@ -45,7 +46,7 @@ public class BattleManager {
                 .filter(Optional::isPresent)
                 .map(Optional::get)
                 .distinct()
-                .collect(Collectors.toList());
+                .collect(Collectors.toSet());
     }
 
     private Optional<Battle> buildBattle(Cat first, Cat second) {

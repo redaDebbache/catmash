@@ -1,21 +1,19 @@
 package com.debbache.catmash.dto;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 public class Cats {
-    private List<CatDTO> images;
+    private Set<CatDTO> images;
 
     public Cats() {
-        this.images = new ArrayList<>();
+        this.images = new HashSet<>();
     }
 
-    public List<CatDTO> getCats() {
-        return Optional.ofNullable(images).orElse(new ArrayList<>());
+    public Set<CatDTO> getCats() {
+        return Optional.ofNullable(images).orElse(new HashSet<CatDTO>());
     }
 
-    public void setImages(List<CatDTO> images) {
+    public void setImages(Set<CatDTO> images) {
         this.images = images;
     }
 }

@@ -1,6 +1,6 @@
 package com.debbache.catmash.manager;
 
-import com.debbache.catmash.configuration.CatMAshTest;
+import com.debbache.catmash.configuration.CatMashTest;
 import com.debbache.catmash.dto.CatDTO;
 import com.debbache.catmash.dto.Cats;
 import com.debbache.catmash.model.Battle;
@@ -20,6 +20,7 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+import static java.util.Collections.singleton;
 import static java.util.Collections.singletonList;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
@@ -27,7 +28,7 @@ import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 @RunWith(SpringJUnit4ClassRunner.class)
-@CatMAshTest
+@CatMashTest
 public class DataCatManagerFunctionalTest {
 
     @Autowired
@@ -78,7 +79,7 @@ public class DataCatManagerFunctionalTest {
 
         Cat alreadyStoredCat = catRepository.findAll().get(0);
         Cats wrapper = new Cats();
-        wrapper.setImages(singletonList(new CatDTO(alreadyStoredCat.getImageLocalisation(), alreadyStoredCat.getId())));
+        wrapper.setImages(singleton(new CatDTO(alreadyStoredCat.getImageUrl(), alreadyStoredCat.getId())));
         when(responseEntity.getBody()).thenReturn(wrapper);
         //When
         sut.dowloadCats();
@@ -123,7 +124,7 @@ public class DataCatManagerFunctionalTest {
     private void buildCatsList(int size, Cats cats) {
         cats.setImages(IntStream.range(0, size)
                 .mapToObj(id -> new CatDTO("http://" + id, UUID.randomUUID().toString()))
-                .collect(Collectors.toList()));
+                .collect(Collectors.toSet()));
     }
 
 

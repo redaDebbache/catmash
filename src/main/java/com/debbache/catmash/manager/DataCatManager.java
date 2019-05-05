@@ -11,6 +11,7 @@ import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import static com.debbache.catmash.util.Constants.EMPTY;
@@ -37,11 +38,11 @@ public class DataCatManager {
                     .map(Cats::getCats)
                     .ifPresent(this::layInCats);
         }catch (Exception ex){
-           log.error("An erro occured while accessing remote cat repository: ", ex);
+           log.error("An error occured while accessing remote cat repository: ", ex);
         }
     }
 
-   private void layInCats(List<CatDTO> cats) {
+   private void layInCats(Set<CatDTO> cats) {
         List<String> alreadyStoredcatIds = catRepository.findAllStoredCatsIds();
 
         List<Cat> newCats = getNewCats(cats, alreadyStoredcatIds);
@@ -52,7 +53,7 @@ public class DataCatManager {
 
     }
 
-    private List<Cat> getNewCats(List<CatDTO> cats, List<String> alreadyStoredcatIds) {
+    private List<Cat> getNewCats(Set<CatDTO> cats, List<String> alreadyStoredcatIds) {
         return cats.stream().distinct()
                 .filter(cat -> !alreadyStoredcatIds.contains(cat.getId()))
                 .map(cat -> new Cat(cat.getId(), cat.getUrl()))
