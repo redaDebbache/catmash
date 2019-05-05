@@ -5,7 +5,9 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
-import org.springframework.http.*;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.LinkedHashMap;
@@ -15,7 +17,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class BattleControllerTest {
+public class BattleFunctionalTest extends EndpointTest{
 
     @Autowired
     protected TestRestTemplate restTemplate;
@@ -32,21 +34,17 @@ public class BattleControllerTest {
     @Test
     public void given_empty_user_id_when_getNext_then_return_a_page_of_100_battles() throws Exception {
         //When
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON);
-        headers.set("userId", "");
-        HttpEntity entity = new HttpEntity(headers);
+        String UserId = "new user";
         ResponseEntity<LinkedHashMap> responseEntity = restTemplate.exchange(
                 "/battles/next",
                 HttpMethod.GET,
-                entity,
+                entity(UserId),
                 LinkedHashMap.class);
         //Then
         assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
         LinkedHashMap body = responseEntity.getBody();
         List content = (List) body.get("content");
         assertThat(content).hasSize(100);
-
     }
 
     @Test

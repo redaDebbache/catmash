@@ -1,6 +1,8 @@
 package com.debbache.catmash.model;
 
-import lombok.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -17,7 +19,7 @@ public class Cat {
     private String id;
 
     @NotBlank
-    private String imageUrl;
+    private String url;
 
     public Cat(String id) {
         this.id = id;
@@ -25,7 +27,7 @@ public class Cat {
 
     public Cat(String id, @NotBlank String imageUrl) {
         this.id = id;
-        this.imageUrl = imageUrl;
+        this.url = imageUrl;
     }
 
     @Override

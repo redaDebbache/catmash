@@ -23,7 +23,7 @@ public class Battle {
     @Id
     private String id;
 
-    private String functionalId;
+    private UUID functionalId;
 
     @ManyToOne
     @NotNull
@@ -37,7 +37,7 @@ public class Battle {
         this.first = first;
         this.second = second;
         this.id = Stream.of(first.getId(), second.getId()).sorted().collect(Collectors.joining("_"));
-        this.functionalId = UUID.randomUUID().toString();
+        this.functionalId = UUID.randomUUID();
     }
 
     public Battle(String id) {

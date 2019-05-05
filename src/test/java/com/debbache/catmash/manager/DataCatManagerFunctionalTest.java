@@ -21,7 +21,6 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import static java.util.Collections.singleton;
-import static java.util.Collections.singletonList;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
@@ -79,7 +78,7 @@ public class DataCatManagerFunctionalTest {
 
         Cat alreadyStoredCat = catRepository.findAll().get(0);
         Cats wrapper = new Cats();
-        wrapper.setImages(singleton(new CatDTO(alreadyStoredCat.getImageUrl(), alreadyStoredCat.getId())));
+        wrapper.setImages(singleton(new CatDTO(alreadyStoredCat.getUrl(), alreadyStoredCat.getId())));
         when(responseEntity.getBody()).thenReturn(wrapper);
         //When
         sut.dowloadCats();
